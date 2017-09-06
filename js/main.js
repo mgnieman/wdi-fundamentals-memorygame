@@ -34,13 +34,23 @@ var checkForMatch = function() {
 	}
 }
 
-var flipCard = function(cardID) {
-	console.log("User flipped " + cards[cardID].rank);
-	cardsInPlay.push(cards[cardID].rank);
-	console.log("cardImage = " + cards[cardID].cardImage + "; suit = " + cards[cardID].suit);
+var flipCard = function() {
+	var cardId = this.getAttribute('data-id');
+	//console.log("User flipped " + cards[cardId].rank);
+	cardsInPlay.push(cards[cardId].rank);
+	//console.log("cardImage = " + cards[cardId].cardImage + "; suit = " + cards[cardId].suit);
+	this.setAttribute('src', cards[cardId].cardImage);
 	if (cardsInPlay.length === 2) {
-		checkForMatch();
+		setTimeout(checkForMatch,20);
 	}
 }
-flipCard(1);
-flipCard(3);
+var createBoard = function() {
+	for(var i = 0; i < cards.length; i++) {
+		var cardElement = document.createElement('img');
+		cardElement.setAttribute('src', 'images/back.png');
+		cardElement.setAttribute('data-id', i);
+		cardElement.addEventListener('click', flipCard);
+		document.getElementById('game-board').appendChild(cardElement);
+	}
+}
+createBoard();
